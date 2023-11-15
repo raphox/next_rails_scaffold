@@ -1,0 +1,27 @@
+Description:
+    The `next_rails_scaffold` gem enhances the default Ruby on Rails scaffold generator by seamlessly integrating with Next.js, a React framework. This gem automates the process of scaffolding a Rails application along with a corresponding frontend directory containing a Next.js application. The generated Next.js app includes all necessary pages and components, leveraging the power of page routing for a smooth and organized development experience.
+
+Example:
+    bin/rails generate scaffold Post tile:string body:text
+
+    This will create:
+
+        app/
+          controllers/
+            posts_controller.rb
+          models/
+            post.rb
+          ...
+        frontend/
+          src
+            pages
+              posts
+                [id]
+                  edit.js
+                  index.js
+                _components
+                  Post.js
+                  PostForm.js
+                index.js
+                new.js
+              services.js
