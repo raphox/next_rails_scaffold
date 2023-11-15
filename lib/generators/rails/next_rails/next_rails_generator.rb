@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Rails
+  include NextRails::Actions
+
   class NextRailsGenerator < Rails::Generators::NamedBase
     source_root File.expand_path("templates", __dir__)
 
@@ -41,9 +43,11 @@ module Rails
       route "resources :#{file_name.pluralize}", namespace: regular_class_path, scope: "/api"
     end
 
-    # Check Javascript depencies and create a new Next.js project, install the the usefull packages and create the
+    # Check Javascript depencies and create a new Next.js project. Install the the usefull packages and create the
     # scaffold code for frontend application.
     def create_frontend_project
+      return say_status :remove, "skip frontend folder", :yellow if shell.base.behavior == :revoke
+
       check_node!
       append_gitignore!
 
@@ -51,8 +55,6 @@ module Rails
 
       inside("frontend") do
         create_next_app!
-
-        install_hygen!
         install_dependencies!
 
         run("npx hygen generate scaffold #{name} #{mapped_attributes.join(" ")}")
@@ -66,9 +68,9 @@ module Rails
       node_version = run("node --version", capture: true).gsub(/[^0-9.]/, "")
 
       if Gem::Dependency.new("", NODE_REQUIRED_VERSION).match?("", node_version)
-        say "Your Node version is '#{node_version}'", :green
+        log :node_version, "Your Node version is '#{node_version}'"
       else
-        say_error "You need to have a Node version '#{NODE_REQUIRED_VERSION}'", :red
+        say_status :node_version, "You need to have a Node version '#{NODE_REQUIRED_VERSION}'", :red
         abort
       end
     end
@@ -99,51 +101,12 @@ module Rails
     end
 
     def install_dependencies!
+      install_hygen!
       run("yarn add #{NODULES_MODULES.join(" ")}")
     end
 
     def mapped_attributes
       attributes.map { |attr| "#{attr.name}:#{attr.type}" }
-    end
-
-    # Make an entry in \Rails routing file <tt>config/routes.rb</tt>
-    #
-    #   route "root 'welcome#index'"
-    #   route "root 'admin#index'", namespace: :admin
-    #   route "root 'admin#index'", namespace: :admin, scope: '/api'
-    def route(routing_code, namespace: nil, scope: nil)
-      namespace = Array(namespace)
-      namespace_pattern = route_namespace_pattern(namespace)
-      routing_code = namespace.reverse.reduce(routing_code) do |code, name|
-        "namespace :#{name} do\n#{rebase_indentation(code, 2)}end"
-      end
-
-      scope = Array(scope)
-      routing_code = scope.reverse.reduce(routing_code) do |code, name|
-        "scope '#{name}' do\n#{rebase_indentation(code, 2)}end"
-      end
-
-      log :route, routing_code
-
-      in_root do
-        if namespace_match = match_file("config/routes.rb", namespace_pattern)
-          base_indent, *, existing_block_indent = namespace_match.captures.compact.map(&:length)
-          existing_line_pattern = /^ {,#{existing_block_indent}}\S.+\n?/
-          routing_code = rebase_indentation(routing_code, base_indent + 2).gsub(existing_line_pattern, "")
-          namespace_pattern = /#{Regexp.escape namespace_match.to_s}/
-        end
-
-        inject_into_file "config/routes.rb", routing_code, after: namespace_pattern, verbose: false, force: false
-
-        if behavior == :revoke && namespace.any? && namespace_match
-          empty_block_pattern = /(#{namespace_pattern})((?:\s*end\n){1,#{namespace.size}})/
-          gsub_file "config/routes.rb", empty_block_pattern, verbose: false, force: true do |matched|
-            beginning, ending = empty_block_pattern.match(matched).captures
-            ending.sub!(/\A\s*end\n/, "") while !ending.empty? && beginning.sub!(/^ *namespace .+ do\n\s*\z/, "")
-            beginning + ending
-          end
-        end
-      end
     end
 
     def exit_on_failure?
