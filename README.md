@@ -1,24 +1,61 @@
 # NextRails
 
-TODO: Delete this and the text below, and describe your gem
+The `next_rails_scaffold` gem is a powerful extension to the standard Ruby on Rails scaffold generator. It streamlines the development workflow by not only creating the backend structure with Rails but also automating the setup of a frontend directory using Next.js. Upon running the scaffold generator, this gem intelligently generates a Next.js application within the specified frontend directory.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/next_rails`. To experiment with that code, run `bin/console` for an interactive prompt.
+The generated Next.js app follows best practices, including a structured page routing system, ensuring that each resource created by the scaffold has its corresponding page and components. This integration enables developers to seamlessly transition between Rails backend and Next.js frontend development, fostering a cohesive and efficient development environment.
+
+Key Features:
+
+- **Automatic Frontend Setup:** The gem automates the creation of a frontend directory within the Rails project, ready for Next.js development.
+- **Page Routing Integration:** All scaffolded resources come with their own pages and components, organized using Next.js' page routing system.
+- **Effortless Transition:** Developers can seamlessly switch between Rails backend and Next.js frontend development within the same project.
+- **Boosted Productivity:** Accelerate development by eliminating the manual setup of frontend components and pages, allowing developers to focus on building features.
+
+Integrate `next_rails_scaffold` into your Ruby on Rails projects to enjoy a streamlined, organized, and efficient full-stack development experience.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ bundle add next_rails_scaffold
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ gem install next_rails_scaffold
 
 ## Usage
 
-TODO: Write usage instructions here
+The `next_rails_scaffold` gem enhances the default Ruby on Rails scaffold generator by seamlessly integrating with Next.js, a React framework. This gem automates the process of scaffolding a Rails application along with a corresponding frontend directory containing a Next.js application. The generated Next.js app includes all necessary pages and components, leveraging the power of page routing for a smooth and organized development experience.
+
+Example:
+
+```
+bin/rails generate scaffold Post tile:string body:text
+```
+
+This will create:
+
+```
+app/
+  controllers/
+    posts_controller.rb
+  models/
+    post.rb
+  ...
+frontend/
+  src
+    pages
+      posts
+        [id]
+          edit.js
+          index.js
+        _components
+          Post.js
+          PostForm.js
+        index.js
+        new.js
+      services.js
+```
 
 ## Development
 
@@ -28,7 +65,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/next_rails.
+Bug reports and pull requests are welcome on GitHub at https://github.com/raphox/next_rails.
 
 ## License
 
