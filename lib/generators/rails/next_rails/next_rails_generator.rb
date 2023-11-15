@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Rails
-  include NextRails::Actions
-
   class NextRailsGenerator < Rails::Generators::NamedBase
+    include ::NextRails::Actions
+
     source_root File.expand_path("templates", __dir__)
 
     NODE_REQUIRED_VERSION = ">= 18.17.0"
