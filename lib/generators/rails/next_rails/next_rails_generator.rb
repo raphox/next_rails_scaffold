@@ -50,7 +50,7 @@ module Rails
         create_next_app!
         install_hygen!
 
-        run("npx hygen generate scaffold #{name} #{mapped_attributes.join(" ")}")
+        run("npx hygen generator scaffold #{name} #{mapped_attributes.join(" ")}")
         run("yarn build")
       end
     end
