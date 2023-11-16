@@ -4,7 +4,16 @@ The `next_rails_scaffold` gem is a powerful extension to the standard Ruby on Ra
 
 The generated Next.js app follows best practices, including a structured page routing system, ensuring that each resource created by the scaffold has its corresponding page and components. This integration enables developers to seamlessly transition between Rails backend and Next.js frontend development, fostering a cohesive and efficient development environment.
 
-Key Features:
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=eMM3AChZ5LY">
+    <img 
+      src="https://img.youtube.com/vi/eMM3AChZ5LY/0.jpg" 
+      alt="NextRails (next_rails_scaffold)" 
+      style="width:60%">
+  </a>
+</div>
+
+## Key Features:
 
 - **Automatic Frontend Setup:** The gem automates the creation of a frontend directory within the Rails project, ready for Next.js development.
 - **Page Routing Integration:** All scaffolded resources come with their own pages and components, organized using Next.js' page routing system.
