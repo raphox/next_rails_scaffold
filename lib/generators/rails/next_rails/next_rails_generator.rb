@@ -9,13 +9,6 @@ module Rails
     NODE_REQUIRED_VERSION = ">= 18.17.0"
     YARN_VERSION = "1.22.19"
     NEXT_VERSION = "14.0.2"
-    NODULES_MODULES = [
-      "@hookform/resolvers",
-      "@tanstack/react-query",
-      "axios",
-      "react-hook-form",
-      "zod"
-    ].freeze
 
     argument :attributes, type: :array, default: [], banner: "field:type field:type"
 
@@ -54,8 +47,7 @@ module Rails
       empty_directory "frontend"
 
       inside("frontend") do
-        create_next_app!
-        install_dependencies!
+        install_hygen!
 
         run("npx hygen generate scaffold #{name} #{mapped_attributes.join(" ")}")
         run("yarn build")
@@ -98,11 +90,6 @@ module Rails
 
       run("yarn add -D hygen hygen-add")
       run("npx hygen-add next-rails-scaffold")
-    end
-
-    def install_dependencies!
-      install_hygen!
-      run("yarn add #{NODULES_MODULES.join(" ")}")
     end
 
     def mapped_attributes
