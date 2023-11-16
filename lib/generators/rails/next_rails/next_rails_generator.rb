@@ -47,6 +47,7 @@ module Rails
       empty_directory "frontend"
 
       inside("frontend") do
+        create_next_app!
         install_hygen!
 
         run("npx hygen generate scaffold #{name} #{mapped_attributes.join(" ")}")
