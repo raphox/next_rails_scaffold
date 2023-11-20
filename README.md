@@ -4,6 +4,8 @@ The `next_rails_scaffold` gem is a powerful extension to the standard Ruby on Ra
 
 The generated Next.js app follows best practices, including a structured page routing system, ensuring that each resource created by the scaffold has its corresponding page and components. This integration enables developers to seamlessly transition between Rails backend and Next.js frontend development, fostering a cohesive and efficient development environment.
 
+Currently, https://www.hygen.io/ is used to create Next.js code, and the https://github.com/raphox/next-rails-scaffold repository contains template files.
+
 <div align="center">
   <a href="https://www.youtube.com/watch?v=eMM3AChZ5LY" target="_blank">
     <img 
