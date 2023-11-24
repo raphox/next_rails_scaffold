@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "next_rails/actions"
+require_relative "next_rails/engine"
 require_relative "next_rails/version"
 
 module NextRails
