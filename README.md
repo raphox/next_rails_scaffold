@@ -41,6 +41,10 @@ The `next_rails_scaffold` gem enhances the default Ruby on Rails scaffold genera
 Example:
 
 ```
+# Appending the `next_rails_scaffold` generator steps to the  to the Rails' scaffold generator.
+bin/rails generate next_rails_scaffold:install
+
+# Generate the RESfull API endpoints and Next.js app with respective components and pages.
 bin/rails generate scaffold Post tile:string body:text
 ```
 
