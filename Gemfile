@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in next_rails.gemspec
+# Specify your gem's dependencies in next_rails_scaffold.gemspec
 gemspec
 
 gem "minitest", "~> 5.0"

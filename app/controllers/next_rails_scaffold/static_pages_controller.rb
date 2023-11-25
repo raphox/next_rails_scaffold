@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module NextRails
+module NextRailsScaffold
   class StaticPagesController < ApplicationController
     STATIC_FILES_PATH = Rails.root.join("public").to_s
 

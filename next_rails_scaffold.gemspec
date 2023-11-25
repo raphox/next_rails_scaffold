@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "lib/next_rails/version"
+require_relative "lib/next_rails_scaffold/version"
 
 Gem::Specification.new do |spec|
   spec.name = "next_rails_scaffold"
-  spec.version = NextRails::VERSION
+  spec.version = NextRailsScaffold::VERSION
   spec.authors = ["Raphael Araújo"]
   spec.email = ["raphox.araujo@gmail.com"]
 

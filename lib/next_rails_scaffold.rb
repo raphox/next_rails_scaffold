@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "next_rails/actions"
-require_relative "next_rails/engine"
-require_relative "next_rails/version"
+require_relative "next_rails_scaffold/actions"
+require_relative "next_rails_scaffold/engine"
+require_relative "next_rails_scaffold/version"
 
-module NextRails
+module NextRailsScaffold
   class Error < StandardError; end
 
   @@configured = false
@@ -13,7 +13,7 @@ module NextRails
     @@configured
   end
 
-  # Default way to setup Next Rails. Run rails generate next_rails:install
+  # Default way to setup Next Rails. Run rails generate next_rails_scaffold:install
   # to create a fresh initializer with all configuration values.
   def self.setup
     @@configured = true

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Rails
-  class NextRailsGenerator < Rails::Generators::NamedBase
-    include ::NextRails::Actions
+  class NextRailsScaffoldGenerator < Rails::Generators::NamedBase
+    include ::NextRailsScaffold::Actions
 
     source_root File.expand_path("templates", __dir__)
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module NextRails
+module NextRailsScaffold
   module Actions
     # Make an entry in Rails routing file <tt>config/routes.rb</tt>
     #

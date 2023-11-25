@@ -1,4 +1,4 @@
-# NextRails
+# NextRailsScaffold
 
 The `next_rails_scaffold` gem is a powerful extension to the standard Ruby on Rails scaffold generator. It streamlines the development workflow by not only creating the backend structure with Rails but also automating the setup of a frontend directory using Next.js. Upon running the scaffold generator, this gem intelligently generates a Next.js application within the specified frontend directory.
 
@@ -8,9 +8,9 @@ Currently, https://www.hygen.io/ is used to create Next.js code, and the https:/
 
 <div align="center">
   <a href="https://www.youtube.com/watch?v=eMM3AChZ5LY" target="_blank">
-    <img 
-      src="https://img.youtube.com/vi/eMM3AChZ5LY/0.jpg" 
-      alt="NextRails (next_rails_scaffold)" 
+    <img
+      src="https://img.youtube.com/vi/eMM3AChZ5LY/0.jpg"
+      alt="NextRailsScaffold (next_rails_scaffold)"
       style="width:60%">
   </a>
 </div>
@@ -78,7 +78,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/raphox/next_rails.
+Bug reports and pull requests are welcome on GitHub at https://github.com/raphox/next_rails_scaffold.
 
 ## License
 

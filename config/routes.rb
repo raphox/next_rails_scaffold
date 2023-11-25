@@ -11,6 +11,6 @@ Rails.application.routes.draw do
     route = path[%r{#{Regexp.escape(static_files_path)}(.*)/index.html}, 1]
     route = route.gsub(parameter_regex, ':\1')
 
-    get route, to: "next_rails/static_pages#index", file_path: path
+    get route, to: "next_rails_scaffold/static_pages#index", file_path: path
   end
 end
