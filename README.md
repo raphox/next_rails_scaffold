@@ -15,6 +15,14 @@ Currently, https://www.hygen.io/ is used to create Next.js code, and the https:/
   </a>
 </div>
 
+## Why?
+
+In one of my posts on [Medium](https://medium.com/@raphox/rails-and-next-js-the-perfect-combination-for-modern-web-development-part-2-308d2f41a767) I go into more detail about the reasons why I created this project. But to summarize, I'll list a few relevant points:
+
+1. When I compare the alternatives offered by [Hotwire](https://hotwired.dev/) with the entire React ecosystem, for me Hotwire is stuck in the way of developing web applications that were practiced more than ten years ago when there were no frameworks like React;
+2. The maturity and ease of the Ruby language and the Ruby on Rails framework justify having more than one language in the same project;
+3. Nothing prevents me from keeping the static site or Single-Page Application (SPA) for smaller projects and, if there's a need or demand, later maintaining my API and configuring my Next application to run on a Node server and offer SSR;
+
 ## Key Features:
 
 - **Automatic Frontend Setup:** The gem automates the creation of a frontend directory within the Rails project, ready for Next.js development.
