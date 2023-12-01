@@ -69,17 +69,18 @@ app/
   ...
 frontend/
   src
+    components
+      Post.js
+      PostForm.js
     pages
       posts
         [id]
           edit.js
           index.js
-        _components
-          Post.js
-          PostForm.js
         index.js
         new.js
-      services.js
+    providers.js
+    services.js
 ```
 
 Sample app https://github.com/raphox/next-rails-app.
