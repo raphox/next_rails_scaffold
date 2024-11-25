@@ -22,6 +22,8 @@ In one of my posts on [Medium](https://medium.com/@raphox/rails-and-next-js-the-
 1. When I compare the alternatives offered by [Hotwire](https://hotwired.dev/) with the entire React ecosystem, for me Hotwire is stuck in the way of developing web applications that were practiced more than ten years ago when there were no frameworks like React;
 2. The maturity and ease of the Ruby language and the Ruby on Rails framework justify having more than one language in the same project;
 3. Nothing prevents me from keeping the static site or Single-Page Application (SPA) for smaller projects and, if there's a need or demand, later maintaining my API and configuring my Next application to run on a Node server and offer SSR;
+4. Like Ruby on Rails itself, it is a framework that seeks to offer tools that help you create a new project with almost everything that a web application normally needs. The purpose of this gem is also to select the best tools you'll need to create a React application. In the future, new tools will be integrated into the project, but for now, you can see our current [stack](https://github.com/raphox/next-rails-scaffold#frontend-tech-stack) of Node packages;
+5. The reason for generating a scaffold, apart from saving time, is also to provide you with a development standard that will be validated and adjusted by other developers and teams. You'll have a path to follow when starting a new project;
 
 ## Key Features:
 
@@ -67,17 +69,18 @@ app/
   ...
 frontend/
   src
+    components
+      Post.js
+      PostForm.js
     pages
       posts
         [id]
           edit.js
           index.js
-        _components
-          Post.js
-          PostForm.js
         index.js
         new.js
-      services.js
+    providers.js
+    services.js
 ```
 
 Sample app https://github.com/raphox/next-rails-app.
