@@ -7,7 +7,7 @@ require_relative "next_rails_scaffold/version"
 module NextRailsScaffold
   class Error < StandardError; end
 
-  @@configured = false
+  @@configured = false # rubocop:disable Style/ClassVars
 
   def self.configured? # :nodoc:
     @@configured
@@ -16,7 +16,7 @@ module NextRailsScaffold
   # Default way to setup Next Rails. Run rails generate next_rails_scaffold:install
   # to create a fresh initializer with all configuration values.
   def self.setup
-    @@configured = true
+    @@configured = true # rubocop:disable Style/ClassVars
     yield Rails.application.config
   end
 end
