@@ -55,7 +55,7 @@ Example:
 bin/rails generate next_rails_scaffold:install
 
 # Generate the RESfull API endpoints and Next.js app with respective components and pages.
-bin/rails generate scaffold Post tile:string body:text
+bin/rails generate scaffold Post title:string body:text
 ```
 
 This will create:
