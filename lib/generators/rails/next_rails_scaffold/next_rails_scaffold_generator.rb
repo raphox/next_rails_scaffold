@@ -50,7 +50,9 @@ module Rails
         create_next_app!
         install_hygen!
 
-        run("npx hygen scaffold javascript #{name} #{mapped_attributes.join(" ")}")
+        language = File.exist?("tsconfig.json") ? "typescript" : "javascript"
+
+        run("npx hygen scaffold #{language} #{name} #{mapped_attributes.join(" ")}")
         run("yarn build")
       end
     end
