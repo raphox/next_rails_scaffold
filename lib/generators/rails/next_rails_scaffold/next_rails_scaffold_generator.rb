@@ -6,9 +6,9 @@ module Rails
 
     source_root File.expand_path("templates", __dir__)
 
-    NODE_REQUIRED_VERSION = ">= 18.18.0"
-    YARN_VERSION = "4.5.3"
-    NEXT_VERSION = "15.0.3"
+    NODE_REQUIRED_VERSION = ENV.fetch("NODE_REQUIRED_VERSION", ">= 18.18.0")
+    YARN_VERSION = ENV.fetch("YARN_VERSION", "4.5.3")
+    NEXT_VERSION = ENV.fetch("NEXT_VERSION", "15.0.3")
 
     argument :attributes, type: :array, default: [], banner: "field:type field:type"
 
