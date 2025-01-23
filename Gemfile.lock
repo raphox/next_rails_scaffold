@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    next_rails_scaffold (0.3.0)
+    next_rails_scaffold (0.3.1)
       rails (>= 7.1.2)
 
 GEM
