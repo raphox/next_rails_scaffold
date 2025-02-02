@@ -1,20 +1,46 @@
 # frozen_string_literal: true
 
+PackageManager = Struct.new(:fetch, :run, :add, :lock_file) do
+  def to_s = fetch
+end
+
 module Rails
   class NextRailsScaffoldGenerator < Rails::Generators::NamedBase
     include ::NextRailsScaffold::Actions
 
     source_root File.expand_path("templates", __dir__)
 
-    NODE_REQUIRED_VERSION = ENV.fetch("NODE_REQUIRED_VERSION", ">= 18.20.6")
-    YARN_VERSION = ENV.fetch("YARN_VERSION", "1.22.22")
+    PACKAGE_MANAGERS = {
+      "npm" => PackageManager.new("npx", "npm run", "npm install", "package-lock.json"),
+      "yarn" => PackageManager.new("yarn dlx", "yarn", "yarn add", "yarn.lock"),
+      "pnpm" => PackageManager.new("pnpm dlx", "pnpm", "pnpm add", "pnpm-lock.yaml"),
+      "bun" => PackageManager.new("bunx", "bun run", "bun add", "bun.lock.json")
+    }.freeze
+    NODE_REQUIRED_VERSION = ENV.fetch("NODE_REQUIRED_VERSION", ">= 18.20")
     NEXT_VERSION = ENV.fetch("NEXT_VERSION", "15.1.6")
 
     argument :attributes, type: :array, default: [], banner: "field:type field:type"
+    class_option :package_manager, type: :string, desc: "Package manager to use for frontend project"
+    class_option :skip_build, type: :boolean, default: false, desc: "Skip running Next.js build"
+    class_option :skip_routes, type: :boolean, default: false, desc: "Skip adding resources to routes.rb"
+
+    attr_accessor :selected_package_manager
 
     def initialize(args, *options) # :nodoc:
       super
+
       self.attributes = shell.base.attributes
+
+      package_manager = shell.base.options[:package_manager]
+      until PACKAGE_MANAGERS.keys.include?(package_manager)
+        puts "Invalid package manager" unless package_manager.nil?
+        package_manager = ask(
+          "Which package manager do you want to use? " \
+          "(#{PACKAGE_MANAGERS.keys.to_sentence(words_connector: " or ")}): "
+        )
+      end
+
+      self.selected_package_manager = PACKAGE_MANAGERS[package_manager]
     end
 
     # Properly nests namespaces passed into a generator
@@ -31,12 +57,12 @@ module Rails
     #     end
     #   end
     def add_resource_route
-      return if options[:actions].present?
+      return if options[:actions].present? || options[:skip_routes]
 
       route "resources :#{file_name.pluralize}", namespace: regular_class_path, scope: "/api"
     end
 
-    # Check Javascript depencies and create a new Next.js project. Install the the usefull packages and create the
+    # Check Javascript dependencies and create a new Next.js project. Install the the useful packages and create the
     # scaffold code for frontend application.
     def create_frontend_project
       return say_status :remove, "skip frontend folder", :yellow if shell.base.behavior == :revoke
@@ -52,8 +78,10 @@ module Rails
 
         language = File.exist?("tsconfig.json") ? "typescript" : "javascript"
 
-        run("npx hygen scaffold #{language} #{name} #{mapped_attributes.join(" ")}")
-        run("yarn build")
+        run("#{selected_package_manager} hygen scaffold #{language} #{name} #{mapped_attributes.join(" ")}")
+        if !options[:skip_build] && yes?("Do you want to build your Next.js project? (y/N)")
+          run("#{selected_package_manager.run} build")
+        end
       end
     end
 
@@ -83,16 +111,17 @@ module Rails
     def create_next_app!
       return if File.exist?("package.json")
 
-      run("npm install --global yarn@#{YARN_VERSION}")
-      run("yarn global add create-next-app@#{NEXT_VERSION}")
-      run("yarn create next-app . --no-app --src-dir --import-alias \"@/*\"")
+      run(
+        "#{selected_package_manager.fetch} create-next-app@#{NEXT_VERSION} . " \
+        "--no-app --src-dir --import-alias \"@/*\""
+      )
     end
 
     def install_hygen!
       return if Dir.exist?("_templates")
 
-      run("yarn add -D hygen hygen-add")
-      run("npx hygen-add next-rails-scaffold")
+      run("#{selected_package_manager.add} -D hygen hygen-add")
+      run("#{selected_package_manager} hygen-add next-rails-scaffold")
     end
 
     def mapped_attributes
