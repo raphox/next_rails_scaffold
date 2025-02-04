@@ -73,7 +73,7 @@ module Rails
         language = File.exist?("tsconfig.json") ? "typescript" : "javascript"
 
         run("#{selected_package_manager} hygen scaffold #{language} #{name} #{mapped_attributes.join(" ")}")
-        if !options[:skip_build] && @prompt.no?("Do you want to build your Next.js project? (y/N)")
+        if !options[:skip_build] && !@prompt.no?("Do you want to build your Next.js project?")
           run("#{selected_package_manager.run} build")
         end
       end
@@ -119,7 +119,7 @@ module Rails
     def append_gitignore!
       rows = <<~HEREDOC
 
-        # Ingoring node modules for Rails and Next.js projects
+        # Ignoring node modules for Rails and Next.js projects
         node_modules/
       HEREDOC
 
