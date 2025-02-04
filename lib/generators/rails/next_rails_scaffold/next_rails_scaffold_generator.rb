@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-PackageManager = Struct.new(:fetch, :run, :add, :lock_file) do
-  def to_s = fetch
+require "tty-prompt"
+
+PackageManager = Struct.new(:fetch, :run, :add, :lock_file, :version) do
+  def to_s = run.split.first
 end
 
 module Rails
@@ -29,18 +31,9 @@ module Rails
     def initialize(args, *options) # :nodoc:
       super
 
+      @prompt = TTY::Prompt.new
+
       self.attributes = shell.base.attributes
-
-      package_manager = shell.base.options[:package_manager]
-      until PACKAGE_MANAGERS.keys.include?(package_manager)
-        puts "Invalid package manager" unless package_manager.nil?
-        package_manager = ask(
-          "Which package manager do you want to use? " \
-          "(#{PACKAGE_MANAGERS.keys.to_sentence(words_connector: " or ")}): "
-        )
-      end
-
-      self.selected_package_manager = PACKAGE_MANAGERS[package_manager]
     end
 
     # Properly nests namespaces passed into a generator
@@ -67,19 +60,20 @@ module Rails
     def create_frontend_project
       return say_status :remove, "skip frontend folder", :yellow if shell.base.behavior == :revoke
 
-      check_node!
       append_gitignore!
 
       empty_directory "frontend"
 
       inside("frontend") do
+        check_node!
+        check_pm_version!
         create_next_app!
         install_hygen!
 
         language = File.exist?("tsconfig.json") ? "typescript" : "javascript"
 
         run("#{selected_package_manager} hygen scaffold #{language} #{name} #{mapped_attributes.join(" ")}")
-        if !options[:skip_build] && yes?("Do you want to build your Next.js project? (y/N)")
+        if !options[:skip_build] && @prompt.no?("Do you want to build your Next.js project? (y/N)")
           run("#{selected_package_manager.run} build")
         end
       end
@@ -96,6 +90,30 @@ module Rails
         say_status :node_version, "You need to have a Node version '#{NODE_REQUIRED_VERSION}'", :red
         abort
       end
+    end
+
+    def check_pm_version!
+      package_manager = shell.base.options[:package_manager]
+
+      unless package_manager
+        PACKAGE_MANAGERS.each do |manager, details|
+          if File.exist?(details.lock_file)
+            package_manager = manager
+            break
+          end
+        end
+      end
+
+      until PACKAGE_MANAGERS.keys.include?(package_manager)
+        puts "Invalid package manager" unless package_manager.nil?
+
+        package_manager = @prompt.select("Which package manager do you want to use?", PACKAGE_MANAGERS.keys)
+      end
+
+      self.selected_package_manager = PACKAGE_MANAGERS[package_manager]
+
+      selected_package_manager.version = run("#{selected_package_manager} --version", capture: true).gsub(/[^0-9.]/, "")
+      log :package_manager, "Using #{selected_package_manager} version '#{selected_package_manager.version}'"
     end
 
     def append_gitignore!
@@ -115,6 +133,11 @@ module Rails
         "#{selected_package_manager.fetch} create-next-app@#{NEXT_VERSION} . " \
         "--no-app --src-dir --import-alias \"@/*\""
       )
+
+      if selected_package_manager.to_s == "yarn" &&
+         Gem::Dependency.new("", ">= 2.0").match?("", selected_package_manager.version)
+        run("yarn config set nodeLinker node-modules")
+      end
     end
 
     def install_hygen!
