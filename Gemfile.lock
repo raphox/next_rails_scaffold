@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    next_rails_scaffold (0.4.3)
+    next_rails_scaffold (0.4.4)
       rails (>= 7.1.2)
       tty-prompt (~> 0.23.1)
 
