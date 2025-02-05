@@ -78,7 +78,7 @@ module NextRailsScaffold
 
         system(
           "#{selected_package_manager.fetch} create-next-app@#{NEXT_VERSION} . --use-#{selected_package_manager} " \
-          "--no-app --src-dir --import-alias \"@/*\" #{Rails.env.test? ? "--yes" : ""}"
+          "--no-app --src-dir --import-alias \"@/*\" #{@shell.base.options[:typescript] ? "--ts" : ""} #{Rails.env.test? ? "--yes" : ""}"
         )
 
         if selected_package_manager.to_s == "yarn" &&
@@ -90,8 +90,10 @@ module NextRailsScaffold
       def install_hygen!
         return if Dir.exist?("_templates")
 
-        system("#{selected_package_manager.add} -D hygen hygen-add")
-        system("#{selected_package_manager.fetch} hygen-add next-rails-scaffold")
+        hygen_add = "hygen-add@https://github.com/raphox/hygen-add"
+
+        system("#{selected_package_manager.add} -D hygen #{hygen_add}")
+        system("#{selected_package_manager.fetch} #{hygen_add} next-rails-scaffold --pm #{selected_package_manager}")
       end
     end
   end

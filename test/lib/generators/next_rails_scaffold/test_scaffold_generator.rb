@@ -19,7 +19,7 @@ module NextRailsScaffold
 
       test "generates view templates" do
         create_rails_app_structure
-        run_generator %w[message title:string content:text --package_manager=yarn --skip_build]
+        run_generator %w[message title:string content:text --package_manager=npm --skip_build]
 
         %w[index edit new show _form _message].each do |view|
           assert_file "app/views/messages/#{view}.html.erb"

@@ -14,6 +14,7 @@ module NextRailsScaffold
       class_option :package_manager, type: :string, desc: "Package manager to use for frontend project"
       class_option :skip_build, type: :boolean, default: false, desc: "Skip running Next.js build"
       class_option :skip_routes, type: :boolean, default: false, desc: "Skip adding resources to routes.rb"
+      class_option :typescript, type: :boolean, default: true, desc: "Generate TypeScript scaffold"
 
       attr_accessor :selected_package_manager
 
