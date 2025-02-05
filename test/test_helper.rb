@@ -1,6 +1,11 @@
-# frozen_string_literal: true
+# Configure Rails Environment
+ENV["RAILS_ENV"] = "test"
 
-$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
-require "next_rails_scaffold"
+require "rails"
+require "rails/test_help"
+require "debug"
 
-require "minitest/autorun"
+require "rails/test_unit/reporter"
+Rails::TestUnitReporter.executable = "bin/test"
+
+require_relative "../lib/next_rails_scaffold"
