@@ -76,9 +76,11 @@ module NextRailsScaffold
       def create_next_app!
         return if File.exist?("package.json")
 
+        use_typescript = @shell.base.options[:typescript] ? "--ts" : ""
+
         system(
           "#{selected_package_manager.fetch} create-next-app@#{NEXT_VERSION} . --use-#{selected_package_manager} " \
-          "--no-app --src-dir --import-alias \"@/*\" #{@shell.base.options[:typescript] ? "--ts" : ""} #{Rails.env.test? ? "--yes" : ""}"
+          "--no-app --src-dir --import-alias \"@/*\" #{use_typescript} #{Rails.env.test? ? "--yes" : ""}"
         )
 
         if selected_package_manager.to_s == "yarn" &&
